@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mvc.mapper.TodoMapper">
+	
+	<select id="selectAll" resultType="Todo">
+		select * from todo
+	</select>
+	<select id = "selectById" resultType = "Todo" parameterType="String">
+		select * from todo where id like concat('%', #{id}, '%')
+	</select>
+	<select id = "selectOne" resultType = "Todo" parameterType="String">
+		select * from todo where num = #{num}
+	</select>
+	<insert id = "insert" parameterType="map">
+		insert into todo (content, id, sdate, edate) values(#{content},#{id},sysdate(), #{edate})
+	</insert>
+	<delete id = "delete" parameterType = "String">
+		delete from todo where num = #{num}
+	</delete>
+	
+	<update id="update" parameterType="String">
+    	UPDATE todo
+    	SET done = 
+     	<if test = 'done == "Y"'> 'N'</if>
+     	<if test = 'done == "N"'> 'Y'</if>
+
+    	WHERE num = #{num}
+	</update>
+
+	<select id = "searchByDate" parameterType = "String">
+		select * from todo where sdate between #{sdate} and #{edate}
+	</select>
+	<select id = "searchByContent" parameterType = "String">
+		select * from todo where content like concat('%',#{content},'%')
+	</select>
+	<delete id = "deleteAll">
+		delete from table
+	</delete>
+	
+
+</mapper>
